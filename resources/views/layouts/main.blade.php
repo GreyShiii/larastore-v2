@@ -12,6 +12,14 @@
     </nav>
 
     <main>
+        @if(session('success'))
+            <div style="color:green;">{{ session('success') }}</div>
+        @endif
+
+        @if (session('success'))
+            <div style="color:red;">{{ session('error') }}</div>
+        @endif
+
         @yield('contents')
     </main>
 </body>
