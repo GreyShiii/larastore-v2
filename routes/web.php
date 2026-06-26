@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\EnsureIsAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', EnsureIsAdmin::class])->group(function () {
     Route::resource('products', ProductController::class);
 });
 

@@ -15,8 +15,8 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (session('is_admin') !== true) {
-            return redirect('/')->with('error', 'Access denied');
+        if (!auth()->user()->is_admin) {
+            return redirect('/dashboard')->with('error', 'Access denied. Admins only.');
         }
         return $next($request);
     }
