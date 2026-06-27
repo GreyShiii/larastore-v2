@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\EnsureIsAdmin;
+use Illuminate\Console\View\Components\Mutators\EnsureRelativePaths;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +23,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', EnsureIsAdmin::class])->group(function () {
     Route::resource('products', ProductController::class);
+    Route::resource('categories', CategoryController::class)->except(['show']);
 });
 
 require __DIR__.'/auth.php';

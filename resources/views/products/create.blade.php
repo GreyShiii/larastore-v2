@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('contents')
-<h2>Adding Product</h2>
+<h2>Creating Product</h2>
     <form action="{{ route('products.store') }}" method="POST">
         @csrf
         <label for="">Product Name</label>
@@ -15,6 +15,17 @@
         <label for="">Stock</label>
         <input type="number" name="stock" value="{{ old('stock') }}">
         @error('stock') <span>{{ $message }}</span> @enderror<br>
+
+        <div>
+            <label for="">Category</label>
+            <select name="category_id" id="">
+                <option value="">-- Select Category --</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('category_id') <span>{{ $message }}</span> @enderror
+        </div>
 
         <button type="submit">Create Product</button>
         <a href="{{ route('products.index') }}">Cancel</a>

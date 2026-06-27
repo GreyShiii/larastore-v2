@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::all();
+        return view('products.create', compact('categories'));
     }
 
     /**
@@ -33,7 +35,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'string|nullable',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0'
+            'stock' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
         ]);
         Product::create($validated);
         return to_route('products.index')->with('success', 'Product created successfully!');
@@ -52,7 +55,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $categories = Category::all();
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -64,7 +68,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'string|nullable',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0'
+            'stock' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
         ]);
         $product->update($validated);
         return to_route('products.index')->with('success', 'Product updated successfully!');

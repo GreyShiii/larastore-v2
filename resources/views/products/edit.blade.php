@@ -17,6 +17,17 @@
         <input type="number" name="stock" value="{{ old('stock', $product->stock) }}">
         @error('stock') <span>{{ $message }}</span> @enderror<br>
 
+        <div>
+            <label for="">Category</label>
+            <select name="category_id" id="">
+                <option value="">-- Select Category --</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('category_id') <span>{{ $message }}</span> @enderror
+        </div>
+
         <button type="submit">Update Product</button>
         <a href="{{ route('products.index') }}">Cancel</a>
     </form>

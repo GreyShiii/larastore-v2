@@ -9,6 +9,7 @@
 <body>
     <nav>
         <a href="{{ route('products.index') }}">Products</a>
+        <a href="{{ route('categories.index') }}">Categories</a>
     </nav>
 
     <main>
@@ -16,7 +17,7 @@
             <div style="color:green;">{{ session('success') }}</div>
         @endif
 
-        @if (session('success'))
+        @if (session('error'))
             <div style="color:red;">{{ session('error') }}</div>
         @endif
 
