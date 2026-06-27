@@ -37,5 +37,6 @@
                 </tr>
             @endforelse
         </tbody>
+        {{ $products->links() }}
     </table>
 @endsection
