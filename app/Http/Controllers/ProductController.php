@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Product::class);
+
         $categories = Category::all();
 
         $products = Product::with('category')
@@ -34,6 +37,8 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Product::class);
+
         $categories = Category::all();
         return view('products.create', compact('categories'));
     }
@@ -43,6 +48,8 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        $this->authorize('create', Product::class);
+
         Product::create($request->validated());
         return to_route('products.index')->with('success', 'Product created successfully!');
     }
@@ -52,6 +59,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $this->authorize('viewAny', Product::class);
+
         return view('products.show', compact('product'));
     }
 
@@ -60,6 +69,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $this->authorize('update', $product);
+
         $categories = Category::all();
         return view('products.edit', compact('product', 'categories'));
     }
@@ -69,6 +80,8 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        $this->authorize('update', $product);
+
         $product->update($request->validated());
         return to_route('products.index')->with('success', 'Product updated successfully!');
     }
@@ -78,6 +91,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->authorize('delete', $product);
+
         $product->delete();
         return to_route('products.index')->with('success', 'Product deleted successfully!');
     }
