@@ -7,8 +7,9 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\Http\Request;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -41,7 +42,8 @@ class ProductController extends Controller
         $this->authorize('create', Product::class);
 
         $categories = Category::all();
-        return view('products.create', compact('categories'));
+        $tags = Tag::all();
+        return view('products.create', compact('categories', 'tags'));
     }
 
     /**
@@ -57,7 +59,8 @@ class ProductController extends Controller
             $data['image'] = $request->file('image')->store('products', 'public');
         }
 
-        Product::create($data);
+        $product = Product::create($data);
+        $product->tags()->sync($request->tags ?? []);
         return to_route('products.index')->with('success', 'Product created successfully!');
     }
 
@@ -79,7 +82,8 @@ class ProductController extends Controller
         $this->authorize('update', $product);
 
         $categories = Category::all();
-        return view('products.edit', compact('product', 'categories'));
+        $tags = Tag::all();
+        return view('products.edit', compact('product', 'categories', 'tags'));
     }
 
     /**
@@ -100,6 +104,7 @@ class ProductController extends Controller
         }
 
         $product->update($data);
+        $product->tags()->sync($request->tags ?? []);
         return to_route('products.index')->with('success', 'Product updated successfully!');
     }
 

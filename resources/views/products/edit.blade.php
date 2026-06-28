@@ -38,6 +38,17 @@
             @error('category_id') <span>{{ $message }}</span> @enderror
         </div>
 
+        <div>
+            <label for="">Tags</label>
+            @foreach ($tags as $tag)
+                <label for="">
+                    <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                        {{ $product->tags->contains($tag->id) ? 'checked' : '' }}>
+                        {{ $tag->name }}
+                </label>
+            @endforeach
+        </div>
+
         <button type="submit">Update Product</button>
         <a href="{{ route('products.index') }}">Cancel</a>
     </form>
