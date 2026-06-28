@@ -2,6 +2,13 @@
 
 @section('contents')
     <h2>{{ $product->name }}</h2>
+
+    @if ($product->image)
+        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+    @else
+        <p>No image uploaded.</p>
+    @endif
+
     <p>Category: {{ $product->category->name ?? 'No category' }}</p>
     <p>Price:₱ {{ number_format($product->price, 2) }}</p>
     <p>Stock: {{ $product->stock }}</p>

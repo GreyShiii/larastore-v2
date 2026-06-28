@@ -2,8 +2,15 @@
 
 @section('contents')
 <h2>Creating Product</h2>
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+
+        <div>
+            <label for="Product Image"></label>
+            <input type="file" name="image">
+            @error('image') <span>{{ $message }}</span> @enderror
+        </div>
+
         <label for="">Product Name</label>
         <input type="text" name="name" value="{{ old('name') }}">
         @error('name') <span>{{ $message }}</span> @enderror<br>

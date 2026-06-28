@@ -2,9 +2,19 @@
 
 @section('contents')
 <h2>Editing: {{ $product->name }}</h2>
-    <form action="{{ route('products.update', $product) }}" method="POST">
+    <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
+        <div>
+            <label for="">Product Image</label>
+            @if ($product->image)
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->image }}">
+            @endif
+            <input type="file" name="image">
+            @error('image') <span> {{ $message }} </span> @enderror
+        </div>
+
         <label for="">Product Name</label>
         <input type="text" name="name" value="{{ old('name', $product->name) }}">
         @error('name') <span>{{ $message }}</span> @enderror<br>

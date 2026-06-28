@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory; // // To implement the factory() method in Controller
 
-    protected $fillable = ['name', 'description', 'price', 'stock', 'category_id'];
+    protected $fillable = ['name', 'description', 'price', 'stock', 'category_id', 'image'];
 
     public function category()
     {
