@@ -3,6 +3,21 @@
 @section('contents')
 <h2>Product List</h2>
 <a href="{{ route('products.create')}}">Add Product</a>
+
+    <form action="{{ route('products.index')}}" method="GET">
+        <input type="text" name="search" placeholder="Search products..." value="{{ request('search') }}">
+
+        <select name="category_id" id="">
+            <option value="">All Categories</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : ''}}>{{ $category->name }}</option>
+            @endforeach
+        </select>
+
+        <button type="submit">Search</button>
+        <a href="{{ route('products.index') }}">Clear</a>
+    </form>
+
     <table>
         <thead>
             <tr>
@@ -37,6 +52,7 @@
                 </tr>
             @endforelse
         </tbody>
-        {{ $products->links() }}
     </table>
+    {{-- For rendering pagination navigation button, the previous/next --}}
+    {{ $products->appends(request()->query())->links() }}
 @endsection

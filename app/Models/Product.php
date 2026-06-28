@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory; // // To implement the factory() method in Controller
 
     protected $fillable = ['name', 'description', 'price', 'stock', 'category_id'];
 
